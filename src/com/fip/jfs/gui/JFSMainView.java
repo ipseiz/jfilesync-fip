@@ -115,11 +115,6 @@ public class JFSMainView extends JFrame implements ActionListener {
 		toolBar.add(JFSGuiSupport.getButton("jfs.icon.profile", "OPTIONS", this,"menu.options"));
 		toolBar.add(JFSGuiSupport.getButton("jfs.icon.compare", "COMPARE", this,"menu.compare"));
 		toolBar.add(JFSGuiSupport.getButton("jfs.icon.synchronize", "SYNCHRONIZE",	this, "menu.synchronize"));
-		toolBar.addSeparator();
-		//serverButton = JFSSupport.getToggleButton("jfs.icon.server",
-		//		"server.title", false, this, "menu.server");
-		//toolBar.add(serverButton);
-		//toolBar.addSeparator();
 		JButton assistant = JFSGuiSupport.getButton("jfs.icon.assistant","ASSISTANT", this, "menu.assistant");
 		assistant.setText(t.get("menu.assistant"));
 		toolBar.add(assistant);
@@ -133,9 +128,6 @@ public class JFSMainView extends JFrame implements ActionListener {
 		mnTools.addSeparator();
 		mnTools.add(JFSGuiSupport.getMenuItem("menu.history", "HISTORY", this));
 		mnTools.addSeparator();
-				//serverItem = JFSGuiSupport.getCheckBoxMenuItem("menu.server","server.title", false, this);
-				//mnTools.add(serverItem);
-				//mnTools.addSeparator();
 		mnTools.add(JFSGuiSupport.getMenuItem("menu.outLog", "OUTPUT_LOG", this,"jfs.icon.log"));
 		mnTools.add(JFSGuiSupport.getMenuItem("menu.errLog", "error.log", this,"jfs.icon.log"));
 	}

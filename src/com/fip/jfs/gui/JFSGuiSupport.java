@@ -13,7 +13,7 @@ import com.fip.jfs.conf.JFSConst;
 import com.fip.jfs.conf.JFSTextTranslation;
 
 /**
- * Description
+ * This class provides some useful methods for creating buttons, menus, and so on.
  *
  * @author Fabien Ipseiz
  * @version 8 févr. 2013
