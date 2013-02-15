@@ -3,6 +3,8 @@
 package com.fip.jfs.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,6 +19,8 @@ import com.fip.jfs.conf.JFSConst;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -32,11 +36,11 @@ import javax.swing.JButton;
  * This class represents the main Java Swing frame of the JFS application.
  *
  * @author Fabien Ipseiz
- * @version 5 févr. 2013
+ * @version 15 févr. 2013
  */
 
 @SuppressWarnings("serial")
-public class JFSMainView extends JFrame implements ActionListener {
+public class JFSMainView extends JFrame implements ActionListener, ComponentListener {
 
 	private JPanel contentPane;
 
@@ -62,6 +66,8 @@ public class JFSMainView extends JFrame implements ActionListener {
 		    	actionPerformed("EXIT");
 		     }
 		});
+		addComponentListener(this);
+		
 		// Set some frame attributes:
 		JFSSettings s = JFSSettings.getInstance();
 		setBounds(s.getWindowX(), s.getWindowY(), s.getWindowWidth(), s.getWindowHeight());
@@ -115,6 +121,7 @@ public class JFSMainView extends JFrame implements ActionListener {
 		toolBar.add(JFSGuiSupport.getButton("jfs.icon.profile", "OPTIONS", this,"menu.options"));
 		toolBar.add(JFSGuiSupport.getButton("jfs.icon.compare", "COMPARE", this,"menu.compare"));
 		toolBar.add(JFSGuiSupport.getButton("jfs.icon.synchronize", "SYNCHRONIZE",	this, "menu.synchronize"));
+		toolBar.addSeparator();
 		JButton assistant = JFSGuiSupport.getButton("jfs.icon.assistant","ASSISTANT", this, "menu.assistant");
 		assistant.setText(t.get("menu.assistant"));
 		toolBar.add(assistant);
@@ -131,7 +138,8 @@ public class JFSMainView extends JFrame implements ActionListener {
 		mnTools.add(JFSGuiSupport.getMenuItem("menu.outLog", "OUTPUT_LOG", this,"jfs.icon.log"));
 		mnTools.add(JFSGuiSupport.getMenuItem("menu.errLog", "error.log", this,"jfs.icon.log"));
 	}
-
+	
+	
 	/**
 	 * @see ActionListener#actionPerformed(ActionEvent)
 	 */
@@ -164,7 +172,7 @@ public class JFSMainView extends JFrame implements ActionListener {
 				// Store last entered profile data:
 				//config.storeDefaultFile();
 
-				// Store settings:
+				// Save settings:
 				s.store();
 
 				// Close window and go back to main program:
@@ -177,4 +185,47 @@ public class JFSMainView extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * @see ComponentListener#componentResized(ComponentEvent)
+	 */
+	public void componentResized(ComponentEvent arg0) {
+		JFSSettings s = JFSSettings.getInstance();
+		int state = this.getExtendedState();
+		Rectangle r = this.getBounds();
+
+		if (state == Frame.NORMAL) {
+			s.setWindowBounds(r.x, r.y, r.width, r.height);
+			System.out.println("r.x = " + r.x + " r.y = " + r.y + " r.width = " + r.width +" r.height = " + r.height);
+		/*} else if (state == Frame.MAXIMIZED_VERT) {
+			settings.setWindowX(r.x);
+			settings.setWindowWidth(r.width);
+		} else if (state == Frame.MAXIMIZED_HORIZ) {
+			settings.setWindowY(r.y);
+			settings.setWindowHeight(r.height);
+		*/
+		}	
+	}
+
+	/**
+	 * @see ComponentListener#componentResized(ComponentEvent)
+	 */
+	@Override
+	public void componentHidden(ComponentEvent e) {
+	}
+
+	/**
+	 * @see ComponentListener#componentResized(ComponentEvent)
+	 */
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		componentResized(e);
+	}
+
+	/**
+	 * @see ComponentListener#componentResized(ComponentEvent)
+	 */
+	@Override
+	public void componentShown(ComponentEvent e) {
+	}
+
 }

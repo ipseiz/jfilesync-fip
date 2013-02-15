@@ -3,6 +3,10 @@
 package com.fip.jfs.conf;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 import com.fip.jfs.conf.JFSConst;
 import com.fip.jfs.conf.JFSSettings;
@@ -12,7 +16,7 @@ import com.fip.jfs.conf.JFSSettings;
  * The class implements the singleton design pattern.
  *
  * @author Fabien Ipseiz
- * @version 7 févr. 2013
+ * @version 15 févr. 2013
  */
 
 public class JFSSettings {
@@ -25,17 +29,18 @@ public class JFSSettings {
 			+ JFSConst.SETTINGS_FILE);
 	
 	/** The JFileSync main window's X coordinate. */
-	//TODO confirm the access level: private or protected ?
-	protected int windowX;
+	private int windowX;
 
 	/** The JFileSync main window's Y coordinate. */
-	protected int windowY;
+	private int windowY;
 
 	/** The JFileSync main window's width. */
-	protected int windowWidth;
+	private int windowWidth;
 
 	/** The JFileSync main window's height. */
-	protected int windowHeight;
+	private int windowHeight;
+	
+	Properties settings = new Properties();
 	
 	/**
 	 * Sets some default values for the settings object and loads the settings
@@ -43,7 +48,6 @@ public class JFSSettings {
 	 */
 	private JFSSettings() {
 		clean();
-		//TODO load();
 	}
 	
 	/**
@@ -73,8 +77,21 @@ public class JFSSettings {
 	 * Stores a settings file.
 	 */
 	public final void store() {
-		//TODO store() method
+		// create window MainView settings elements 
+		settings.setProperty("windowX", "" +  this.getWindowX());
+		settings.setProperty("windowY", "" +  this.getWindowY());
+		settings.setProperty("windowWidth", "" +  this.getWindowWidth());
+		//TODO see with Julien what is the best coding 
+		settings.setProperty("windowHeight", String.valueOf(this.getWindowHeight()));
+		try {
+			FileOutputStream out = new FileOutputStream(file);
+			settings.store(out, "--- configuration of the window MainView ---");
+			out.close();
+		} catch (IOException e) {
+			//TODO management of the logs by using log4j
+			System.out.println("Unable to write the settings file.");
 		}
+	}
 	
 	/**
 	 * Sets the bounds to store for the JFS main window.
