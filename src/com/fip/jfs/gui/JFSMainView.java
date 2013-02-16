@@ -3,7 +3,6 @@
 package com.fip.jfs.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Frame;
 import java.awt.Rectangle;
 
 import javax.swing.JFrame;
@@ -36,7 +35,7 @@ import javax.swing.JButton;
  * This class represents the main Java Swing frame of the JFS application.
  *
  * @author Fabien Ipseiz
- * @version 15 févr. 2013
+ * @version 16 févr. 2013
  */
 
 @SuppressWarnings("serial")
@@ -112,6 +111,7 @@ public class JFSMainView extends JFrame implements ActionListener, ComponentList
 		JToolBar toolBar = new JToolBar();
 		toolBar.setRollover(true);
 		contentPane.add(toolBar, BorderLayout.NORTH);
+		//TODO understand the following instruction
 		//toolBar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
 		toolBar.add(JFSGuiSupport.getButton("jfs.icon.new", "NEW", this, "menu.new"));
 		toolBar.add(JFSGuiSupport.getButton("jfs.icon.open", "OPEN", this, "menu.open"));
@@ -158,8 +158,9 @@ public class JFSMainView extends JFrame implements ActionListener, ComponentList
 	public void actionPerformed(String cmd) {
 		// Get translation objects, configuration, settings, and task:
 		JFSTextTranslation t = JFSTextTranslation.getInstance();
-		//JFSConfig config = JFSConfig.getInstance();
 		JFSSettings s = JFSSettings.getInstance();
+		//JFSConfig config = JFSConfig.getInstance();
+		
 		
 		if (cmd.equals("EXIT")) {
 			// Ask for exiting the program:
@@ -190,20 +191,8 @@ public class JFSMainView extends JFrame implements ActionListener, ComponentList
 	 */
 	public void componentResized(ComponentEvent arg0) {
 		JFSSettings s = JFSSettings.getInstance();
-		int state = this.getExtendedState();
 		Rectangle r = this.getBounds();
-
-		if (state == Frame.NORMAL) {
-			s.setWindowBounds(r.x, r.y, r.width, r.height);
-			System.out.println("r.x = " + r.x + " r.y = " + r.y + " r.width = " + r.width +" r.height = " + r.height);
-		/*} else if (state == Frame.MAXIMIZED_VERT) {
-			settings.setWindowX(r.x);
-			settings.setWindowWidth(r.width);
-		} else if (state == Frame.MAXIMIZED_HORIZ) {
-			settings.setWindowY(r.y);
-			settings.setWindowHeight(r.height);
-		*/
-		}	
+		s.setWindowBounds(r.x, r.y, r.width, r.height);
 	}
 
 	/**

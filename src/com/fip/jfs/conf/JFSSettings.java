@@ -16,7 +16,7 @@ import com.fip.jfs.conf.JFSSettings;
  * The class implements the singleton design pattern.
  *
  * @author Fabien Ipseiz
- * @version 15 févr. 2013
+ * @version 16 févr. 2013
  */
 
 public class JFSSettings {
@@ -48,6 +48,7 @@ public class JFSSettings {
 	 */
 	private JFSSettings() {
 		clean();
+		load();
 	}
 	
 	/**
@@ -74,6 +75,30 @@ public class JFSSettings {
 	}
 	
 	/**
+	 * loads a settings file.
+	 */
+	public final void load() {
+		//TODO see whether following test is pertinent
+		/*if (!file.exists())
+			return;*/
+		
+		try {
+			FileInputStream in = new FileInputStream(file);
+			settings.load(in);
+			
+			// restore window MainView settings elements
+			windowX=getInt(settings,"windowX",windowX);
+			windowY=getInt(settings,"windowY",windowY);
+			windowWidth=getInt(settings,"windowWidth",windowWidth);
+			windowHeight=getInt(settings,"windowHeight",windowHeight);
+			
+			in.close();
+		} catch (IOException e){
+			System.out.println("Unable to load the settings file.");
+		}
+	}
+	
+	/**
 	 * Stores a settings file.
 	 */
 	public final void store() {
@@ -85,14 +110,34 @@ public class JFSSettings {
 		settings.setProperty("windowHeight", String.valueOf(this.getWindowHeight()));
 		try {
 			FileOutputStream out = new FileOutputStream(file);
-			settings.store(out, "--- configuration of the window MainView ---");
+			settings.store(out, "--- configuration of the JFS main window ---");
 			out.close();
 		} catch (IOException e) {
-			//TODO management of the logs by using log4j
+			//TODO management of the logs with slf4j + logback
 			System.out.println("Unable to write the settings file.");
 		}
 	}
 	
+	/**
+	 * Return the integer value of a stored String.
+	 * 
+	 * @param props
+	 *            the name of the .properties file (settings file.)
+	 * @param name
+	 *            the key. 
+	 * @param value
+	 *            the default value.
+	 * 
+	 * @return the integer value 
+	 */
+	public static int getInt(Properties props, String name, int value) { 
+		String v = props.getProperty(name); 
+		if(v == null) {
+			return value;
+		}
+		return Integer.parseInt(v);
+	}
+
 	/**
 	 * Sets the bounds to store for the JFS main window.
 	 * 
