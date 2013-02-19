@@ -8,6 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fip.jfs.conf.JFSConst;
 import com.fip.jfs.conf.JFSSettings;
 
@@ -16,7 +19,7 @@ import com.fip.jfs.conf.JFSSettings;
  * The class implements the singleton design pattern.
  *
  * @author Fabien Ipseiz
- * @version 16 févr. 2013
+ * @version 17 févr. 2013
  */
 
 public class JFSSettings {
@@ -39,6 +42,9 @@ public class JFSSettings {
 
 	/** The JFileSync main window's height. */
 	private int windowHeight;
+	
+	/** SLF4J bound to logback-classic. */
+	private static final Logger logger = LoggerFactory.getLogger(JFSSettings.class);
 	
 	Properties settings = new Properties();
 	
@@ -94,7 +100,7 @@ public class JFSSettings {
 			
 			in.close();
 		} catch (IOException e){
-			System.out.println("Unable to load the settings file.");
+			logger.error("Unable to load the settings file.");
 		}
 	}
 	
@@ -103,18 +109,16 @@ public class JFSSettings {
 	 */
 	public final void store() {
 		// create window MainView settings elements 
-		settings.setProperty("windowX", "" +  this.getWindowX());
-		settings.setProperty("windowY", "" +  this.getWindowY());
-		settings.setProperty("windowWidth", "" +  this.getWindowWidth());
-		//TODO see with Julien what is the best coding 
+		settings.setProperty("windowX", String.valueOf(this.getWindowX()));
+		settings.setProperty("windowY", String.valueOf( this.getWindowY()));
+		settings.setProperty("windowWidth", String.valueOf(this.getWindowWidth()));
 		settings.setProperty("windowHeight", String.valueOf(this.getWindowHeight()));
 		try {
 			FileOutputStream out = new FileOutputStream(file);
 			settings.store(out, "--- configuration of the JFS main window ---");
 			out.close();
 		} catch (IOException e) {
-			//TODO management of the logs with slf4j + logback
-			System.out.println("Unable to write the settings file.");
+			logger.error("Unable to write the settings file.");
 		}
 	}
 	
