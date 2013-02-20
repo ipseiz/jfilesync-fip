@@ -3,9 +3,10 @@
 package com.fip.jfs;
 
 import java.awt.EventQueue;
-import java.io.PrintStream;
 
-import com.fip.jfs.conf.JFSConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fip.jfs.conf.JFSSettings;
 import com.fip.jfs.conf.JFSTextTranslation;
 
@@ -17,10 +18,13 @@ import com.fip.jfs.gui.JFSMainView;
  * interface.
  *
  * @author Fabien Ipseiz
- * @version 9 févr. 2013
+ * @version 19 févr. 2013
  */
 public class JFileSync {
 
+	/** SLF4J bound to logback-classic. */
+	private static final Logger logger = LoggerFactory.getLogger(JFSSettings.class);
+	
 	/**
 	 * Launch the application.
 	 */
@@ -31,13 +35,13 @@ public class JFileSync {
 		//JFSSettings s = JFSSettings.getInstance();
 
 		// Get translation and configuration object:
-		//JFSTextTranslation t = JFSTextTranslation.getInstance();
-		//JFSConfig config = JFSConfig.getInstance();
-		//PrintStream p = JFSLog.getOut().getStream();
+		JFSTextTranslation t = JFSTextTranslation.getInstance();
+		//JFSUserConfig config = JFSUserConfig.getInstance();
 
 		// Clean config before starting (if main method is used as service):
 		//config.clean();
 		
+		logger.info(t.get("cmd.startGui"));
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

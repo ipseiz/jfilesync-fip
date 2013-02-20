@@ -40,13 +40,19 @@ public enum JFSConst {
 		bundle = ResourceBundle.getBundle(JFSConst.CONFIG_CLASS);
 	}
 	
-	/** The file name of the settings file. */
-	public final static String SETTINGS_FILE = "Settings.properties";
-	
 	/** The default location for JFS configuration files. */
 	public final static String HOME_DIR = System.getProperty("user.home", ".")
 			+ File.separator + ".jfs";
 	
+	/** The file name of the settings file. */
+	public final static String SETTINGS_FILE = "Settings.properties";
+	
+	/** The file name of the default user profile file. */
+	public final static String DEFAULT_PROFILE_FILE = "Profile.properties";
+	
+	/** The file name of the default log file. */
+	public final static String OUT_LOG_FILE = "jfs.log";
+		
 	/**
 	 * The default state of the JFileSync main window (maximized, iconified,
 	 * etc.).
@@ -114,6 +120,7 @@ public enum JFSConst {
 		} catch (Exception e) {
 			//JFSLog.getErr().getStream().println(
 			//		"Couldn't create URL: " + fileName);
+			
 		}
 
 		return fileUrl;

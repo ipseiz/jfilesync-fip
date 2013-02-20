@@ -3,6 +3,7 @@
 package com.fip.jfs.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Rectangle;
 
 import javax.swing.JFrame;
@@ -13,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import com.fip.jfs.conf.JFSConst;
 import java.awt.Toolkit;
@@ -23,24 +26,31 @@ import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import com.fip.jfs.conf.JFSConfig;
 import com.fip.jfs.conf.JFSTextTranslation;
 import com.fip.jfs.conf.JFSSettings;
+import com.fip.jfs.conf.JFSUserConfig;
 import com.fip.jfs.gui.JFSGuiSupport;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
+
+import com.fip.jfs.gui.JFSTableView;
+
 
 
 /**
  * This class represents the main Java Swing frame of the JFS application.
  *
  * @author Fabien Ipseiz
- * @version 16 févr. 2013
+ * @version 20 févr. 2013
  */
 
 @SuppressWarnings("serial")
 public class JFSMainView extends JFrame implements ActionListener, ComponentListener {
 
+	/** The synchronization table itself in form of a JTable object. */
+	private JTable syncTable;
+	
+	/** Stores the corresponding JPanel. */
 	private JPanel contentPane;
 
 	/**
@@ -52,7 +62,7 @@ public class JFSMainView extends JFrame implements ActionListener, ComponentList
 		JFSTextTranslation t = JFSTextTranslation.getInstance();
 		JComponent.setDefaultLocale(t.getLocale());
 		
-		JFSConfig config = JFSConfig.getInstance();
+		JFSUserConfig config = JFSUserConfig.getInstance();
 		
 		// Start main window of application:		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(JFSMainView.class.getResource("/com/fip/jfs/resources/icons/JFileSync.gif")));
@@ -71,10 +81,17 @@ public class JFSMainView extends JFrame implements ActionListener, ComponentList
 		JFSSettings s = JFSSettings.getInstance();
 		setBounds(s.getWindowX(), s.getWindowY(), s.getWindowWidth(), s.getWindowHeight());
 
-		contentPane = new JPanel();
+		this.contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		Container cp = this.getContentPane();
+		
+		// Initialize JTable:
+		JFSTableView jfsSyncTable = new JFSTableView(this);
+		syncTable = jfsSyncTable.getJTable();
+
 		
 		// Create main menus:
 		JMenuBar menuBar = new JMenuBar();
@@ -108,11 +125,10 @@ public class JFSMainView extends JFrame implements ActionListener, ComponentList
 		mnFile.add(JFSGuiSupport.getMenuItem("menu.exit", "EXIT", this));
 		
 		// Create control panel:
+		//TODO modify border of the ToolBar buttons => 3D ?
 		JToolBar toolBar = new JToolBar();
 		toolBar.setRollover(true);
 		contentPane.add(toolBar, BorderLayout.NORTH);
-		//TODO understand the following instruction
-		//toolBar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
 		toolBar.add(JFSGuiSupport.getButton("jfs.icon.new", "NEW", this, "menu.new"));
 		toolBar.add(JFSGuiSupport.getButton("jfs.icon.open", "OPEN", this, "menu.open"));
 		toolBar.add(JFSGuiSupport.getButton("jfs.icon.save", "SAVE", this, "menu.save"));
@@ -137,6 +153,9 @@ public class JFSMainView extends JFrame implements ActionListener, ComponentList
 		mnTools.addSeparator();
 		mnTools.add(JFSGuiSupport.getMenuItem("menu.outLog", "OUTPUT_LOG", this,"jfs.icon.log"));
 		mnTools.add(JFSGuiSupport.getMenuItem("menu.errLog", "error.log", this,"jfs.icon.log"));
+				
+		// Add elements to content pane:
+		cp.add(new JScrollPane(syncTable), BorderLayout.CENTER);
 	}
 	
 	

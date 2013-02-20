@@ -1,7 +1,7 @@
 <configuration scan="true">
  
  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <file>D:\Documents and Settings\IPSEIZ\.jfs\jfs.log</file>
+    <file>C:\users\ipseiz\.jfs\jfs.log</file>
 
     <encoder>
       <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
@@ -12,7 +12,7 @@
     <!-- encoders are assigned the type
          ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
     <encoder>
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} --- %msg%n</pattern>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
   
