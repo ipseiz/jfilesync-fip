@@ -33,8 +33,7 @@ import com.fip.jfs.gui.JFSGuiSupport;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 
-import com.fip.jfs.gui.JFSTableView;
-
+import com.fip.jfs.gui.JFSSyncTableView;
 
 
 /**
@@ -50,20 +49,18 @@ public class JFSMainView extends JFrame implements ActionListener, ComponentList
 	/** The synchronization table itself in form of a JTable object. */
 	private JTable syncTable;
 	
-	/** Stores the corresponding JPanel. */
-	private JPanel contentPane;
+	private final JPanel contentPane = new JPanel();
 
 	/**
 	 * Create the frame.
 	 */
 	public JFSMainView(){
+		JFSUserConfig config = JFSUserConfig.getInstance();
 		
 		// Get translation object and set default locale:
 		JFSTextTranslation t = JFSTextTranslation.getInstance();
 		JComponent.setDefaultLocale(t.getLocale());
-		
-		JFSUserConfig config = JFSUserConfig.getInstance();
-		
+
 		// Start main window of application:		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(JFSMainView.class.getResource("/com/fip/jfs/resources/icons/JFileSync.gif")));
 		setTitle(t.get("general.appName") + " " + JFSConst.getInstance().getString("jfs.version") 
@@ -81,7 +78,6 @@ public class JFSMainView extends JFrame implements ActionListener, ComponentList
 		JFSSettings s = JFSSettings.getInstance();
 		setBounds(s.getWindowX(), s.getWindowY(), s.getWindowWidth(), s.getWindowHeight());
 
-		this.contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
@@ -89,7 +85,7 @@ public class JFSMainView extends JFrame implements ActionListener, ComponentList
 		Container cp = this.getContentPane();
 		
 		// Initialize JTable:
-		JFSTableView jfsSyncTable = new JFSTableView(this);
+		JFSSyncTableView jfsSyncTable = new JFSSyncTableView(this);
 		syncTable = jfsSyncTable.getJTable();
 
 		
@@ -178,7 +174,7 @@ public class JFSMainView extends JFrame implements ActionListener, ComponentList
 		// Get translation objects, configuration, settings, and task:
 		JFSTextTranslation t = JFSTextTranslation.getInstance();
 		JFSSettings s = JFSSettings.getInstance();
-		//JFSConfig config = JFSConfig.getInstance();
+		//JFSUserConfig config = JFSUserConfig.getInstance();
 		
 		
 		if (cmd.equals("EXIT")) {

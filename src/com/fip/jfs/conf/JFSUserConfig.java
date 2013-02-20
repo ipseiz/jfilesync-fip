@@ -3,6 +3,9 @@
 package com.fip.jfs.conf;
 
 import java.io.File;
+import java.util.ArrayList;
+
+import com.fip.jfs.conf.JFSDirectoryPair;
 
 /**
  * Manages all configuration options of JFileSync user profile.
@@ -19,7 +22,10 @@ public enum JFSUserConfig {
 			+ File.separator + JFSConst.DEFAULT_PROFILE_FILE);
 	
 	/** Stores the title of the configuration. */
-	protected String title;
+	private String title;
+	
+	/** ArryList with all directory pairs that have to be compared. */
+	private ArrayList<JFSDirectoryPair> directoryList = new ArrayList<JFSDirectoryPair>();
 	
 	/**
 	 * Sets some default values for the configuration object.

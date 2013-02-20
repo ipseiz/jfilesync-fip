@@ -3,7 +3,7 @@ package com.fip.jfs.gui;
 
 import java.io.File;
 import javax.swing.filechooser.FileFilter;
-//import com.fip.jfs.conf.JFSText;
+//import com.fip.jfs.conf.JFSTextTranslation;
 
 /**
  * This class is used in order to filter the list of files shown in the
@@ -54,7 +54,7 @@ public class JFSConfigFileFilter extends FileFilter {
 	 */
 	public String getDescription() {
 		return "JFS profiles files";
-		//	return JFSText.getInstance().get("profile.configFiles");
+		//	return JFSTextTranslation.getInstance().get("profile.configFiles");
 	}
 
 	/**

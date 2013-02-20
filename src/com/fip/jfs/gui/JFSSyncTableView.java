@@ -18,7 +18,7 @@ import com.fip.jfs.conf.JFSTextTranslation;
  * @author Fabien Ipseiz
  * @version 20 févr. 2013
  */
-public class JFSTableView extends AbstractTableModel {
+public class JFSSyncTableView extends AbstractTableModel {
 
 	/** The corresponding JTable. */
 	private final JTable table;
@@ -29,7 +29,7 @@ public class JFSTableView extends AbstractTableModel {
 	 * @param parent
 	 *            The parent frame.
 	 */
-	public JFSTableView(Frame parent) {
+	public JFSSyncTableView(Frame parent) {
 		// Create column model:
 		JFSTextTranslation t = JFSTextTranslation.getInstance();
 		DefaultTableColumnModel cm = new DefaultTableColumnModel();
